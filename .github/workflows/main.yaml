@@ -3,7 +3,7 @@
 name: 'My first github action'
 # workflow의 고유 이름
 
-on: [ 'push', 'pull-request' ]
+on: push
 # 어느 시점에서 실행 (push, comment, commit 등 어느 시점에)
 # 중복되는 시점이 여러개면 모든 yaml이 동시에 실행됨.
 
