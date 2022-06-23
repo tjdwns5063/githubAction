@@ -3,7 +3,7 @@
 name: 'My first github action'
 # workflow의 고유 이름
 
-on: push
+on: [ 'push', 'pull-request' ]
 # 어느 시점에서 실행 (push, comment, commit 등 어느 시점에)
 # 중복되는 시점이 여러개면 모든 yaml이 동시에 실행됨.
 
@@ -11,23 +11,33 @@ jobs:
   first-job:
   # build server
     name: 'first job'
-
-    strategy:
-      matrix:
-        os: [ 'windows-latest', 'macos-latest', 'ubuntu-latest' ]
-        nodejs: [ '14.x', '16.x' ]
     
-    runs-on: ${{ matrix.os }}
+    runs-on: ubuntu-latest
     #os windows-latest macos-latest ubuntu-latest
-    steps: 
-    - name: Setup node.js
-      uses: actions/setup-node@v3
-      with:
-        node-version: ${{ matrix.nodejs}}
 
-    - name: output value from ${{ matrix.os }}
+    - name: output value 1
       id: first
       shell: bash
       run: |
-        echo "OS: ${{ matrix.os }}"
-        echo "node.js ${{ matrix.nodejs }}"
+        echo "Hello World"
+
+    - name: output value 1
+      id: first
+      if: github.event_name == 'pull request'
+      shell: bash
+      run: |
+        echo "Hello World"
+
+  second-job:
+  # build server
+    name: 'second job'
+    if: github.event_name == 'pull_request'
+    
+    runs-on: ubuntu-latest
+    #os windows-latest macos-latest ubuntu-latest
+
+    - name: output value 2
+      id: first
+      shell: bash
+      run: |
+        echo "Hello World"
