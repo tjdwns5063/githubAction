@@ -23,7 +23,7 @@ jobs:
     - name: Setup node.js
       uses: actions/setup-node@v3
       with:
-        node-version ${{ matrix.nodejs}}
+        node-version: ${{ matrix.nodejs}}
 
     - name: output value from ${{ matrix.os }}
       id: first
