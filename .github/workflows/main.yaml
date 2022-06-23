@@ -7,31 +7,20 @@ on: push
 # 어느 시점에서 실행 (push, comment, commit 등 어느 시점에)
 # 중복되는 시점이 여러개면 모든 yaml이 동시에 실행됨.
 
-env: 
-  WORKFLOW_LEVEL: 'THIS VALUE COMES FROM THE WORKFLOW LEVEL'
-# 환경변수를 워크플로우 레벨에서 설정
-
 jobs:
   first-job:
   # build server
     name: 'first job'
-    runs-on: ubuntu-latest
+
+    strategy:
+      matrix:
+        os: [ 'os windows-latest', 'macos-latest', 'ubuntu-latest' ]
+    
+    runs-on: ${{ matrix.os }}
     #os windows-latest macos-latest ubuntu-latest
-    env:
-      JOB_LEVEL_1: 'THIS COMES FROM JOB LEVEL 1'
-    # first job 내에서는 모두 사용가능
     steps: 
-    - name: mask value
+    - name: output value from ${{ matrix.os }}
       id: first
       shell: bash
       run: |
-        first_value="This is the first output value"
-
-        echo "::add-mask::$first_value"
-        echo "::set-output name=my_first_value::$first_value"
-
-    - name: get ouput value
-      shell: bash
-      run: |
-        echo ${{ steps.first.outputs.my_first_value }}
-        echo ${{ secrets.HELLO }}
+       echo "OS: ${{ matrix.os }}"
