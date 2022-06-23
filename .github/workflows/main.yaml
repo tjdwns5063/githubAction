@@ -20,7 +20,7 @@ jobs:
       run: |
         echo "Hello World"
 
-    - name: output value 1
+    - name: output value 2
       if: github.event_name == 'pull request'
       shell: bash
       run: |
