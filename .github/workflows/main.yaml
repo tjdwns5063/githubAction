@@ -1,19 +1,71 @@
+# name, on, jobs의 세가지 구성(필수)
+
 name: 'My first github action'
-# name, on, jobs의 세가지 구성
+# workflow의 고유 이름
 
 on: push
 # 어느 시점에서 실행 (push, comment, commit 등 어느 시점에)
+# 중복되는 시점이 여러개면 모든 yaml이 동시에 실행됨.
+
+env: 
+  WORKFLOW_LEVEL: 'THIS VALUE COMES FROM THE WORKFLOW LEVEL'
+# 환경변수를 워크플로우 레벨에서 설정
+
 jobs:
   first-job:
   # build server
     name: 'first job'
     runs-on: ubuntu-latest
     #os windows-latest macos-latest ubuntu-latest
+    env:
+      JOB_LEVEL_1: 'THIS COMES FROM JOB LEVEL 1'
+    # first job 내에서는 모두 사용가능
     steps: 
     - name: Say Hello World 1
       shell: bash
+      env:
+        STEP_LEVEL_1: 'THIS COMES FROM STEP LEVEL 1'
+      # step 레벨에서만 사용 가능
       run: |
         echo "Hello World from step 1"
+        echo $WORKFLOW LEVEL
+        echo $JOB_LEVEL1
+        echo $JOB_LEVEL2
+        echo $STEP_LEVEL1
+        echo $STEP_LEVEL2
+    - name: Say Hello World 2
+      shell: pwsh
+      env:
+        STEP_LEVEL_2: 'THIS COMES FROM STEP LEVEL 2'
+      run: |
+        echo "Hello World from step 1"
+        echo $WORKFLOW LEVEL
+        echo $JOB_LEVEL1
+        echo $JOB_LEVEL2
+        echo $STEP_LEVEL1
+        echo $STEP_LEVEL2
+
+  second-job:
+  # build server
+    name: 'first job'
+    runs-on: ubuntu-latest
+    #os windows-latest macos-latest ubuntu-latest
+    env:
+      JOB_LEVEL_2: 'THIS COMES FROM JOB LEVEL 2'
+    # first job 내에서는 모두 사용가능
+    steps: 
+    - name: Say Hello World 1
+      shell: bash
+      env:
+        STEP_LEVEL_1: 'THIS COMES FROM STEP LEVEL 1'
+      # step 레벨에서만 사용 가능
+      run: |
+        echo "Hello World from step 1"
+        echo $WORKFLOW LEVEL
+        echo $JOB_LEVEL1
+        echo $JOB_LEVEL2
+        echo $STEP_LEVEL1
+
     - name: Say Hello World 2
       shell: pwsh
       run: |
