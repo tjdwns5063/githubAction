@@ -21,29 +21,15 @@ jobs:
       JOB_LEVEL_1: 'THIS COMES FROM JOB LEVEL 1'
     # first job 내에서는 모두 사용가능
     steps: 
-    - name: Say Hello World 1
-      shell: bash
-      env:
-        STEP_LEVEL_1: 'THIS COMES FROM STEP LEVEL 1'
-      # step 레벨에서만 사용 가능
-      run: |
-        echo "Hello World from step 1"
-        echo "STEP_VALUE_1='THIS IS SET BY STEP 1'" >> $GITHUB_ENV
-
-
-    - name: Say Hello World 2
-      shell: pwsh
-      run: |
-        echo "Hello World from step 1"
-        echo "VALUE: $env:STEP_VALUE_1"
-        echo "VALUE: ${{ env.STEP_VALUE_1 }}"
-
-    - name: Say Hello World 3
+    - name: set output value
+      id: first
       shell: bash
       run: |
-        echo "Hello World from step 3"
-        echo "VALUE: $STEP_VALUE_1"
-        echo "VALUE: $STEP_VALUE_1"
-      # 1. pwsh 방식 2. github_env의 json 형식을 이용한 방식
+        first_value="This is the first output value"
 
-# 실행 시킬 작업을 나열
+        echo "::set-output name=my_first_value::$first_value"
+
+    - name: get ouput value
+      shell: bash
+      run: |
+        echo ${{ steps.first.outputs.my_first_value }}
